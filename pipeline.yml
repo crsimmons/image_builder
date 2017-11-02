@@ -1,0 +1,23 @@
+---
+resources:
+- name: dockerfile
+  type: git
+  source:
+    uri: https://github.com/crsimmons/image_builder.git
+    branch: master
+    paths: [Dockerfile]
+
+- name: dockerhub
+  type: docker-image
+  source:
+    repository: zhadow/pipeline-image
+    username: ((username))
+    password: ((password))
+
+jobs:
+- name: build-image
+  plan:
+  - get: dockerfile
+  - put: dockerhub
+    params:
+      build: dockerfile
